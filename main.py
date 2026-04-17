@@ -9,7 +9,6 @@ def main(page: ft.Page):
     #Контейнер
     task_list = ft.Column(spacing=20)
     
-    
    # Цех/Завод
     def view_tasks(task_id, task_text):
         #Детали
@@ -26,18 +25,29 @@ def main(page: ft.Page):
             main_db.update_task(task_id=task_id, new_task=task_field.value)
             task_field.read_only = True
             page.update()
-            
+        
+        def delete_task(_):
+            main_db.delete_task(task_id)  # удаляем из БД
+            task_list.controls.remove(task_row)  # удаляем из интерфейса
+            page.update()    
+                
         #Кнопка котороя будет редактировать
         edit_button = ft.IconButton(icon=ft.Icons.EDIT, on_click=enable_edit)
-        
+
         #Сохранение
         save_button = ft.IconButton(icon=ft.Icons.SAVE, on_click=save_task)
         
-        return ft.Row([
+        #Кнопка удаления задачи
+        delete_button = ft.IconButton(icon=ft.Icons.DELETE, icon_color=ft.Colors.RED, on_click=delete_task)
+        
+        task_row = ft.Row([
             task_field,
             edit_button,
-            save_button
+            save_button,
+            delete_button
         ])
+        
+        return task_row
     
     def add_task_db(_):
         if task_input.value:
