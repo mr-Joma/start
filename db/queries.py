@@ -26,3 +26,4 @@ update_task = 'UPDATE tasks SET task = ? WHERE id = ?'
 # DELETE 
 delete_task = 'DELETE FROM tasks WHERE id = ?'
 
+delete_completed_tasks = "DELETE FROM tasks WHERE completed = 1"

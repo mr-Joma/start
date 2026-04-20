@@ -54,3 +54,10 @@ def get_tasks(filter_type):
     tasks = cursor.fetchall()
     conn.close()
     return tasks
+
+def delete_completed_tasks():
+    conn = sqlite3.connect(path_db)
+    cursor = conn.cursor()
+    cursor.execute(queries.delete_completed_tasks)
+    conn.commit()
+    conn.close()

@@ -81,6 +81,11 @@ def main(page: ft.Page):
     
     main_object = ft.Row([task_input, add_task_button])
     
+    #Добавил функцию очистки
+    def clear_completed(_):
+            main_db.delete_completed_tasks()  # удаляем из БД
+            load_tasks()  # обновляем интерфейс
+    
     def set_filter(filter_value):
         nonlocal filter_type
         filter_type = filter_value
@@ -92,7 +97,10 @@ def main(page: ft.Page):
         ft.ElevatedButton('Готово ✅', on_click=lambda e: set_filter('completed'))
     ], alignment=ft.MainAxisAlignment.SPACE_EVENLY)
     
-    page.add(main_object, filter_buttons, task_list)
+    clear_completed_button = ft.ElevatedButton('Очистить выполненные', icon=ft.Icons.DELETE,
+                                               color=ft.Colors.RED, on_click=clear_completed)
+    
+    page.add(main_object, filter_buttons, clear_completed_button, task_list)
     load_tasks()
     
 
